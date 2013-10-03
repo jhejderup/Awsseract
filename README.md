@@ -10,7 +10,7 @@ The aws-tesseract project is part of the final assignment for IN4392 Cloud compu
 There are plugins to easily integrate AWS services with popular IDE's such as Eclipse and IntelliJ
 
 ### IntelliJ
-An AWS plugin is available from the JetBrains plugin manager
+An AWS plugin is available from the JetBrains plugin manager. Full documentation is available [here](https://docs.google.com/document/d/19hE4N2ctSeU9Pdb7CHCucMG3qeqPNwp1gsnb0IAsLJ8/edit?pli=1)
 
 ### Eclipse
 Amazon has launched an official plugin named `AWS Toolkit for Eclipse` its available for download [here](http://aws.amazon.com/eclipse/)
