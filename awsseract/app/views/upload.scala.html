@@ -9,9 +9,14 @@
                 <p><i class="icon-cloud-upload icon-5x"></i></p>
                 <h2>Drop Files to upload</h2>
             </center>
-            <form action="http://www.torrentplease.com/dropzone.php" class="dropzone dz-clickable" id="upload-zone">
-            </form>
+            @helper.form(action = routes.Application.uploadFile, 'enctype -> "multipart/form-data", 'class -> "dropzone dz-clickable", 'id -> "upload-zone", 'method -> "post") {
+            <input type="file" name="file" />
+            }
         </div>
     </div>
 </section>
 }
+
+
+
+
