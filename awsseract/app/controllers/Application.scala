@@ -2,12 +2,18 @@ package controllers;
 
 import play.api.mvc._
 import play.api.libs.concurrent.Akka
-import play.libs.Akka._
+import akka.actor.{Props}
 import scala.concurrent.duration._
 import play.api.Play.current
 import play.api.libs.EventSource
+import akka.pattern.ask
+import akka.util.Timeout
 import scala.concurrent.ExecutionContext
+import models.{StartConvert, TextFeed}
 
+object Actors {
+  lazy val notifier = Akka.system.actorOf(Props[MainConvertActor])
+}
 object Application extends Controller {
 
 
@@ -42,6 +48,15 @@ object Application extends Controller {
       )
     }
   }
-
+//http://alvinalexander.com/scala/scala-akka-actors-ask-examples-future-await-timeout-result
+//http://www.playframework.com/documentation/2.0/ScalaAkka
+//http://www.playframework.com/documentation/2.1.x/ScalaStream
+  def convert(image: File) = Action {
+      Async {
+        (Actors.notifier ? StartConvert(image = image)).map {
+          case TextFeed(out) => Ok.stream(out &> EventSource()).as("text/event-stream")
+        }
+      }
+    }
 
 }
