@@ -47,7 +47,7 @@ class MainConvertActor extends Actor{
         Concurrent.unicast[JsValue](
           onStart = (c) => {
             channels += (startConvert.id -> c)
-            OCRActor ! startSearch
+            OCRActor ! startConvert
           },
           onComplete = {
             self ! StopConvert(startConvert.id)
