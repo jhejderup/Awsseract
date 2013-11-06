@@ -1,27 +1,24 @@
-package actors
+package nl.in4392.master
 
-import akka.actor.ActorLogging
 
 import akka.actor.Actor
-import akka.actor.Props
-import akka.actor.ActorRef
-
-import scala.collection.immutable.Queue
+import akka.actor.ActorLogging
 import nl.in4392.models.DistributedProtocol._
-
+import nl.in4392.models.DistributedProtocol.TaskCompleted
+import nl.in4392.models.DistributedProtocol.WorkerRegister
+import nl.in4392.models.DistributedProtocol.WorkerRequestTask
 import nl.in4392.models.Task._
-import nl.in4392.models.WorkerStatusProtocol._
-import models.ConvertProtocol.ResultConvert
 
-/*
-import models.DistributedProtocol._
-import models.WorkerStatusProtocol._
-import models.Task._
-import models.ConvertProtocol.ResultConvert
-*/
-import java.util.UUID
-import play.api.libs.concurrent.Akka
-import play.api.Play.current
+import akka.actor.{ ActorRef, Props, Actor, ActorSystem }
+
+import nl.in4392.models.Task.Task
+import nl.in4392.models.WorkerStatusProtocol.WorkerState
+import nl.in4392.models.WorkerStatusProtocol.Working
+import nl.in4392.models.WorkerStatusProtocol.{Working, Idle, WorkerState}
+import scala.collection.immutable.Queue
+
+
+
 
 class MasterActor extends Actor with ActorLogging {
 
@@ -30,8 +27,6 @@ class MasterActor extends Actor with ActorLogging {
 
   private var jobQueue = Queue[Task]()
   private var workers = Map.empty[String,WorkerState]
-
-  val mainSysActor = Akka.system.actorSelection("/user/mainsysActor")
 
   def receive = {
 
@@ -66,7 +61,7 @@ class MasterActor extends Actor with ActorLogging {
             log.debug("Task {} is completed by worker {}",taskId,workerId)
             workers += (workerId  -> value.copy(status=Idle))
             println("The result is {}",result.toString)         //here we need to present the result to the webinterface
-            mainSysActor ! ResultConvert(UUID.fromString(task.taskId),result.toString)
+            //add some ack
           }
         case _ => println("[Master][TaskCompleted] I dunno how I came here")
       }
@@ -86,8 +81,6 @@ class MasterActor extends Actor with ActorLogging {
       println("Received task: {}", task)
       jobQueue = jobQueue enqueue task
       notifyWorkers()
-
-    case _ => println("Fick ngt fran worker!")
 
 
 
