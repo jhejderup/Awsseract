@@ -25,6 +25,8 @@ import com.typesafe.config.ConfigFactory
 import play.api.Play.current
 import nl.in4392.models.Task._
 import java.util.UUID
+import scala.util.{ Success, Failure }
+import nl.in4392.models.DistributedProtocol.TaskCompleted
 
 object Application extends Controller {
 
@@ -82,10 +84,17 @@ object Application extends Controller {
   }
   */
 
-
-def convertImage(imageRaw:Array[Byte]) = {
-  println("inside convert image")
-  masterActor ! new Task(UUID.randomUUID().toString,imageRaw)
+  def convertImage(imageRaw: Array[Byte]) = {
+    println("inside convert image")
+    implicit val timeout = Timeout(20 seconds) // needed for `?` below
+    val resultFuture = masterActor ? new Task(UUID.randomUUID().toString,imageRaw)
+    resultFuture onComplete {
+      case Success(Task(taskid,result)) =>
+        println("tillbaka i master, id"+taskid+"resultat "+result)
+      case Failure(t) =>
+        t.printStackTrace()
+    }
+  }
 
   /* implicit val timeout = Timeout(50 seconds) // needed for `?` below
     print("hello")
@@ -99,7 +108,7 @@ def convertImage(imageRaw:Array[Byte]) = {
     }
     */
 
-  }
+
 
 
 //http://alvinalexander.com/scala/scala-akka-actors-ask-examples-future-await-timeout-result
@@ -114,4 +123,7 @@ def convertImage(imageRaw:Array[Byte]) = {
       }
     }
     */
+
+
 }
+
