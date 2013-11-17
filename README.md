@@ -7,10 +7,10 @@ The aws-tesseract project is part of the final assignment for IN4392 Cloud compu
 
 ## Project Strucutre
 
-* awsseract-frontend: Play! Framework and MasterNode
-* awsseract-core: Master and Worker Implementation, include two runnable daemons: Master Node(without using play!) and Worker Node
-* awsseract-shared: Message Protocal files shared by the core and frontend
-* awssercat-ec2interface: Amazon EC2 Library Wrapper for manually mointoring and launching EC2 instances
+* ``awsseract-frontend``: Play! Framework and MasterNode
+* ``awsseract-core``: Master and Worker Implementation; includes two runnable daemons: Master Node(without using play!) and Worker Node
+* ``awsseract-shared``: Message Protocal files shared by the core and frontend
+* ``awssercat-ec2interface``: Amazon EC2 Library Wrapper for manually mointoring and launching EC2 instances
 
 ## Group members
 
