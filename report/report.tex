@@ -55,9 +55,7 @@ The Netherlands \\
 
 
 \begin{abstract}
-Awsseract is a distributed implementation of the popular open-course Tesseract OCR engine for extracting text elements from scanned images.The system is a cloud-based implementation for deployment on IaaS platforms and modeled after the actor model using the work-stealing pattern. The results shows that Awsseract can achieve fairly stable load balacing and scaling during high workload.
-
-
+Awsseract is a distributed implementation of the popular open-course Tesseract OCR engine for extracting text elements from scanned images.The system is a cloud-based implementation for deployment on IaaS platforms and modeled after the actor model using the work-stealing pattern. The results shows that Awsseract is elastic and achieves fairly stable load balancing during high user demand.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -75,7 +73,8 @@ Awsseract is modeled in a distributed-fashion to support fault-tolerance, scalab
         
 The main goal of this project is to show how an image-processing problem can be highly scalable in terms of large user demand without compromising the responsiveness and interactivity of the service. 
 
-The remainder of report is as follows: Section~\ref{sec:bg} contains a brief description and a requirements analysis of the Awsseract service. The system architecture and implementation details are explained in Section~\ref{sec:sysdesign}. Finally, Section~\ref{sec:experiment} contains the performance evaluation of Awsseract service, followed by conclusion and our recommendations for WantCloud. 
+The remainder of report is as follows: Section~\ref{sec:bg} contains a brief description and a requirements analysis of the Awsseract service. The system architecture and implementation details are explained in Section~\ref{sec:sysdesign}. Finally, Section~\ref{sec:experiment} contains the performance evaluation of Awsseract service, followed by the Discussion in Section~\ref{sec:discussion} and the Conclusion in Section~\ref{sec:conclusion}.
+
 
 \section{Application Requirements}\label{sec:bg}
 \noindent
@@ -91,6 +90,7 @@ Awsseract has to conform with the business objectives of WantCloud by assessing 
     $Type$&$Description$\\
     \hline
     Application&convert images files into textual files.\\
+    Automation&add, remove, configure EC2 instances, establish communication programmaticially\\
     Monitoring&observe, record and display the system status.\\
     Elasticity&Add/remove VMs depending on the resource demand.\\
     Performance&Guarantee the system performance by resources allocation.\\
@@ -318,9 +318,9 @@ In total, 3 experiments are conducted. The first two experiments serve as baseli
 
 Although the experiments are mainly devoted for analyzing the elasticity requirement of Asseract, just by having the entire system running, the experiments also indirectly validated other system requirements specified in Table I: Asseract is able to convert a large amount of images files into textual files, with a shorter average makespan, by scheduling the workload to evenly multiple EC2 instances in a cost-efficient way.
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 
-\section{Conclusion}
+\section{Conclusion}\label{sec:conclusion}
 In this report, Awsseract, a prototyped distributed application on an IaaS platform, has been developed, deployed and experimented. The results shows that Awsseract deployed on the world largest IaaS Platform Amazon EC2 has high-utilization of the resources to achieve cost-effectiveness. The speed-up gained during the experiments was sub-optimal due to unoptimized parameters for scaling up. Nonetheless, many potential benefits such as no up-front commitment, elasticity, computation for relatively cheap price and ease-of-management have been shown. The main drawback with IaaS may be that confidential or organizational data may be in unsecured hands. This could potentially be solved by having confidential data on-premise and less-important on the IaaS provider. The overall verdict is that use of IaaS platform clearly meets WantCloud's current and future demands of their clients and therefore should consider using IaaS platforms to achieve better elasticity and performance. 
 
 \bibliographystyle{plain}
