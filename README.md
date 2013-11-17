@@ -12,6 +12,12 @@ The aws-tesseract project is part of the final assignment for IN4392 Cloud compu
 * ``awsseract-shared``: Message Protocal files shared by the core and frontend
 * ``awssercat-ec2interface``: Amazon EC2 Library Wrapper for manually mointoring and launching EC2 instances
 
+## Prerequisutes
+
+* [Tesseract OCR Engine](https://code.google.com/p/tesseract-ocr/) 
+* [SBT tool](http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html) for building the project
+
+
 ## Group members
 
 * Joseph Hejderup
