@@ -313,12 +313,43 @@ Therefore, the lower instance usage results in a lower total runtime cost, defin
     \label{fig:instanceusage}
 \end{figure}
 
+
+\section{Discussion}\label{sec:discussion}
+
 \subsection{Remarks on Experiment Results}\label{sec:experimentremark}
 In total, 3 experiments are conducted. The first two experiments serve as baseline benchmark for the third experiment, where the actual instance policy is deployed.  In experiment 1, using one single worker results in lowest total instance cost, but longest average makespan. In experiment 2, using 5 static workers results in shortest average makespan, but highest total instance cost. Finally, in experiment 3, by assigning dynamic number of workers, the total instance cost is only slightly higher than in experiment 1, however, the average makespan is close to that of experiment 3. Furthermore, the Asseract architecture allows more sophisticated policy to be implemented, i.e. a better prediction mechanism of the workload expectation 
 
 Although the experiments are mainly devoted for analyzing the elasticity requirement of Asseract, just by having the entire system running, the experiments also indirectly validated other system requirements specified in Table I: Asseract is able to convert a large amount of images files into textual files, with a shorter average makespan, by scheduling the workload to evenly multiple EC2 instances in a cost-efficient way.
+\subsection{Extrapolation}\label{sec:extrapolation}
+In order to establish a reliable measurement of the extrapolation, several factors such as the size of the image per request, the number of request per user, the maximum queueing acceptable per request, etc have to be taken into consideration. In our scenario, a reliable predictive method is not achievable and thus a simplified estimation is provided.
 
-\section{Discussion}\label{sec:discussion}
+Derived from the experimental results, it takes one worker instance two hours to complete $10^4$ tasks, while five worker instances only 10 minutes to complete the same load. The performance of Amazon EC2 is unreliable and would require  more rigorous testing to arrive at an estimated value. Another factor is using the t1.micro instance, the performance is not constant as there is no information about the underlying hardware or network performance.
+
+Assuming the average processing speed from our experiment can be taken, then each micro instance can process $(10000/600/5 + 10000/7200/1)/2 = 2.36$ tasks per second, thus $2.36 * 3600 * 24 = 203904$ tasks per day.
+Assuming that each user can upload at most 10 image files per day. Then there will be $10^6$, $10^7$, $10^8$ tasks per day, for $10^5$, $10^6$, $10^7$ users respectively.
+Assuming that the price of EC2 micro instance is $0.025$ dollar per hour
+Assuming that the task distribution is even throughout the whole day, the whole month and the whole year and Awsseract uses dynamic number of workers described in experiment 3.
+
+
+It takes $10^6/203904$ = $4.9$ instance = $5$ micro instances per day to process $10^6$ tasks. It costs $5 * 0.6 = 3$ dollar per day if there are $10^5$ users. The rest of the table is constructed in similar way.
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Extrapolation based on 5 EC2 instances }\label{tab:instances}
+\centering
+\begin{tabular*}{6cm}{c|c|c|c}
+    \hline
+    $Time$&$10^5 users$&$10^6 users$&$10^7users$\\
+    \hline
+    \texttt{1 day} &\$3  &\$30 &\$300  \\
+    \texttt{1 month} &\$90  &\$900 &\$9000 \\
+    \texttt{1 year} &\$1095 &\$10950 &\$109500 \\
+    \hline
+\end{tabular*}
+\end{table}
+
+
+
 
 \section{Conclusion}\label{sec:conclusion}
 In this report, Awsseract, a prototyped distributed application on an IaaS platform, has been developed, deployed and experimented. The results shows that Awsseract deployed on the world largest IaaS Platform Amazon EC2 has high-utilization of the resources to achieve cost-effectiveness. The speed-up gained during the experiments was sub-optimal due to unoptimized parameters for scaling up. Nonetheless, many potential benefits such as no up-front commitment, elasticity, computation for relatively cheap price and ease-of-management have been shown. The main drawback with IaaS may be that confidential or organizational data may be in unsecured hands. This could potentially be solved by having confidential data on-premise and less-important on the IaaS provider. The overall verdict is that use of IaaS platform clearly meets WantCloud's current and future demands of their clients and therefore should consider using IaaS platforms to achieve better elasticity and performance. 
