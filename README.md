@@ -1,4 +1,4 @@
-aws-tesseract
+Awsseract
 =============
 
 ##Introduction
