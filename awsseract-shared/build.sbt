@@ -4,7 +4,7 @@ organization := "nl.tudelft.in4392.cloudcomputing"
 
 version := "1.0"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.7"
 
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
 
